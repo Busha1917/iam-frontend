@@ -19,14 +19,20 @@ A production-grade Identity and Access Management (IAM) frontend implementation 
 *   **HTTP Client**: Axios (Mocked)
 *   **Styling**: Inline Styles (Prototype)
 
-## 📦 Dependencies
+##  Prerequisites
 
-To install all necessary dependencies, run:
+*   **Node.js** (v16+): [Download here](https://nodejs.org/)
+*   **Terminal**: PowerShell, Command Prompt, or VS Code Terminal.
 
-```bash
-npm install react react-dom react-router-dom axios prop-types
-npm install -D vite @vitejs/plugin-react
-```
+## 📦 Libraries Used
+
+The project relies on these key packages (installed automatically via `npm install`):
+
+*   **`react`** & **`react-dom`**: The UI framework.
+*   **`react-router-dom`**: Manages navigation and protects routes (e.g., redirecting unauthenticated users).
+*   **`axios`**: Simulates API calls to a backend.
+*   **`prop-types`**: Ensures components receive correct data types.
+*   **`vite`**: Fast development server and build tool.
 
 ## � IAM Personas
 
