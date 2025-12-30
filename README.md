@@ -19,7 +19,16 @@ A production-grade Identity and Access Management (IAM) frontend implementation 
 *   **HTTP Client**: Axios (Mocked)
 *   **Styling**: Inline Styles (Prototype)
 
-## 👤 IAM Personas
+## 📦 Dependencies
+
+To install all necessary dependencies, run:
+
+```bash
+npm install react react-dom react-router-dom axios prop-types
+npm install -D vite @vitejs/plugin-react
+```
+
+## � IAM Personas
 
 ### 1. System Owner
 *   **Responsibility**: IAM Governance & Structure.
