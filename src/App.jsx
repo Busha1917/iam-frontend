@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthContext';
+import { IAMProvider } from './context/IAMContext';
 import RequireRole from './auth/RequireRole';
 import Login from './auth/Login';
 import DashboardLayout from './layout/DashboardLayout';
@@ -16,6 +17,7 @@ import UserManagement from './pages/system-admin/UserManagement';
 
 function App() {
   return (
+    <IAMProvider>
     <AuthProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -48,6 +50,7 @@ function App() {
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </AuthProvider>
+    </IAMProvider>
   );
 }
 

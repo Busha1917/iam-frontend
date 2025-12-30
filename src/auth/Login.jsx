@@ -12,45 +12,19 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    // MOCK AUTHENTICATION LOGIC
-    // In production, this calls api.post('/auth/login', { username, password })
-    let mockUser = null;
-
-    switch (username.toLowerCase()) {
-      case 'owner':
-        mockUser = {
-          username: 'System Owner',
-          role: 'SYSTEM_OWNER',
-          scopes: ['iam:structure:write', 'iam:roles:write']
-        };
-        break;
-      case 'staff':
-        mockUser = {
-          username: 'IAM Staff',
-          role: 'IAM_STAFF',
-          scopes: ['iam:read']
-        };
-        break;
-      case 'admin':
-        mockUser = {
-          username: 'System Admin',
-          role: 'SYSTEM_ADMIN',
-          scopes: ['users:write', 'users:read']
-        };
-        break;
-      default:
-        alert('Invalid user. Use "owner", "staff", or "admin".');
-        return;
-    }
-
-    login(mockUser);
+    // Authenticate against IAM Context
+    login(username);
     
     // Redirect based on role if going to root, otherwise go to attempted page
     if (from === '/') {
-      if (mockUser.role === 'SYSTEM_OWNER') navigate('/system-owner/units');
-      else if (mockUser.role === 'IAM_STAFF') navigate('/iam-staff/search');
-      else if (mockUser.role === 'SYSTEM_ADMIN') navigate('/system-admin/users');
+      // We can't know the role immediately here because state update is async, 
+      // but the AuthContext will handle the user object. 
+      // For simplicity in this prototype, we just go to root and let the router redirect or dashboard handle it.
+      // However, to be smoother:
+      if (username === 'owner') navigate('/system-owner/units');
+      else if (username === 'staff') navigate('/iam-staff/search');
+      else if (username === 'admin') navigate('/system-admin/users');
+      else navigate('/');
     } else {
       navigate(from, { replace: true });
     }

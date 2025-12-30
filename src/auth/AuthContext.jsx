@@ -1,37 +1,43 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AUTHORIZATION_POLICY } from '../authorization/policies';
+import { useIAM } from '../context/IAMContext';
 
 // Security Core: The single source of truth for Identity
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const { getUserDetails } = useIAM();
+  const [currentUsername, setCurrentUsername] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Derived State: We re-calculate the user object whenever the username OR the underlying IAM data changes.
+  const user = currentUsername ? getUserDetails(currentUsername) : null;
+
   useEffect(() => {
-    // In a real app, we would validate the session with the backend here
-    // to prevent "local storage spoofing".
-    const storedUser = localStorage.getItem('iam_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (e) {
-        console.error("Session integrity check failed");
-        localStorage.removeItem('iam_user');
-      }
+    const storedUsername = localStorage.getItem('iam_username');
+    if (storedUsername) {
+      setCurrentUsername(storedUsername);
     }
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    // In production, userData comes from a validated JWT payload
-    setUser(userData);
-    localStorage.setItem('iam_user', JSON.stringify(userData));
+  const login = (username) => {
+    const userDetails = getUserDetails(username);
+    if (!userDetails) {
+      alert('User not found in IAM database');
+      return;
+    }
+    if (userDetails.status === 'Disabled') {
+      alert('Account is disabled. Contact System Administrator.');
+      return;
+    }
+    setCurrentUsername(username);
+    localStorage.setItem('iam_username', username);
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('iam_user');
+    setCurrentUsername(null);
+    localStorage.removeItem('iam_username');
     // Hard redirect to clear memory state completely
     window.location.href = '/login';
   };
