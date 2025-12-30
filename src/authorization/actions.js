@@ -1,0 +1,13 @@
+/**
+ * IAM BUSINESS ACTIONS
+ */
+export const ACTIONS = {
+  MANAGE_IAM_STRUCTURE: 'MANAGE_IAM_STRUCTURE',
+  VIEW_ROLES:           'VIEW_ROLES',
+  CREATE_ROLE:          'CREATE_ROLE',
+  SEARCH_ROLES:         'SEARCH_ROLES',
+  
+  VIEW_USERS:           'VIEW_USERS',
+  MANAGE_USERS:         'MANAGE_USERS',
+  DISABLE_USER:         'DISABLE_USER',
+};
